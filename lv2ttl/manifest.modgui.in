@@ -1,0 +1,26 @@
+
+<http://gareus.org/oss/lv2/@LV2NAME@#mono>
+    modgui:gui [
+        modgui:resourcesDirectory <modgui> ;
+        modgui:iconTemplate <modgui/icon-@LV2NAME@.html> ;
+        modgui:stylesheet <modgui/stylesheet-@LV2NAME@.css> ;
+        modgui:screenshot <modgui/screenshot-@LV2NAME@.png> ;
+        modgui:thumbnail <modgui/thumbnail-@LV2NAME@.png> ;
+        modgui:javascript <modgui/script-@LV2NAME@.js> ;
+        modgui:brand "x42" ;
+        modgui:label "TinyGain Mono" ;
+        modgui:monitoredOutputs [ lv2:symbol "level" ] ;
+    ] .
+
+<http://gareus.org/oss/lv2/@LV2NAME@#stereo>
+    modgui:gui [
+        modgui:resourcesDirectory <modgui> ;
+        modgui:iconTemplate <modgui/icon-@LV2NAME@-stereo.html> ;
+        modgui:stylesheet <modgui/stylesheet-@LV2NAME@.css> ;
+        modgui:screenshot <modgui/screenshot-@LV2NAME@-stereo.png> ;
+        modgui:thumbnail <modgui/thumbnail-@LV2NAME@-stereo.png> ;
+        modgui:javascript <modgui/script-@LV2NAME@.js> ;
+        modgui:brand "x42" ;
+        modgui:label "TinyGain Stereo" ;
+        modgui:monitoredOutputs [ lv2:symbol "level" ] ;
+    ] .

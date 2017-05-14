@@ -1,0 +1,173 @@
+@import url(/fonts/nexa/stylesheet.css);
+@import url(/fonts/questrial/stylesheet.css);
+
+.x42-tinygain{{{cns}}} {
+    background-image:url(/resources/box.png{{{ns}}});
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:155px 155px;
+    height:155px;
+    position:absolute;
+    width:155px;
+    border-radius: 21px;
+
+    line-height:1.429;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+    border-color:white;
+    color:white;
+}
+
+.x42-tinygain{{{cns}}} .mod-pedal-input.mono,
+.x42-tinygain{{{cns}}} .mod-pedal-output.mono {
+    top: 60px !important;
+}
+
+.x42-tinygain{{{cns}}} .mod-pedal-input.stereo,
+.x42-tinygain{{{cns}}} .mod-pedal-output.stereo {
+    top: 15px !important;
+}
+
+.x42-tinygain{{{cns}}} .enable-led {
+    background-image:url(/resources/x42-led.png{{{ns}}});
+    background-position:right center;
+    background-repeat:no-repeat;
+    background-size:48px 24px;
+    height:24px;
+    width:24px;
+    margin:0px auto 0 auto;
+    cursor:pointer !important;
+    position:relative;
+    overflow:hidden;
+    left:15px;
+    position:absolute;
+    top:17px;
+    z-index:50;
+}
+
+.x42-tinygain{{{cns}}} .enable-led.on {
+    background-position:left center;
+}
+
+.x42-tinygain{{{cns}}} .mod-control-group {
+    margin:0px 30px !important;
+    position:relative;
+    text-align:center;
+    z-index:30;
+}
+
+.x42-tinygain{{{cns}}} .mod-display-group {
+    background-color:#ccaa66;
+    margin:10px 25px 0 42px !important;
+    position:relative;
+    text-align:center;
+    z-index:0;
+    color:black;
+    box-shadow: 2px 2px 2px 0px #000 inset, -1px -1px 1px 1px #888 inset;
+}
+
+.x42-tinygain{{{cns}}} .mod-control-group div,
+.x42-tinygain{{{cns}}} .mod-display-group div {
+    padding:0;
+    line-height:1.25em;
+    vertical-align:middle;
+}
+
+.x42-tinygain{{{cns}}} .mod-display-group .meterlabel {
+    font-size:10px;
+    text-align:center;
+    position:absolute;
+    z-index:5;
+    left:10px;
+    line-height:.9em;
+    top:1px;
+    bottom:1px;
+    color:#333;
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    overflow:visible;
+		height:36px;
+}
+
+.x42-tinygain{{{cns}}} .mod-display-group .db {
+    font-size:22px;
+    line-height:1.5em;
+    width:75px;
+    display:inline-block;
+    text-align:right;
+    z-index:6;
+    margin: 4px 0 0 0;
+}
+
+.x42-tinygain{{{cns}}} .mod-control-group .mod-knob {
+    overflow:hidden;
+    position:relative;
+    display:inline-block;
+    height:88px;
+    margin: 0;
+}
+
+.x42-tinygain{{{cns}}} .mod-control-group .mod-knob-value {
+    background-color:rgba(0,0,0,.3);
+    font-size:11px;
+    position:absolute;
+    line-height:1.5em;
+    z-index:60;
+    bottom:1px;
+    width:100%;
+    color:white;
+    box-shadow: 2px 2px 2px 0px #000 inset, -1px -1px 1px 1px #888 inset;
+}
+
+.x42-tinygain{{{cns}}} .mod-control-group .mod-knob-image {
+    background-image:url(/resources/knob.png{{{ns}}});
+    background-repeat:no-repeat;
+    background-size:auto 60px;
+    height:60px;
+    width:60px;
+    margin:0 auto;
+    margin:4px auto 0 auto;
+}
+
+.x42-tinygain{{{cns}}} .db-label,
+.x42-tinygain{{{cns}}} .amp-label {
+    overflow:hidden;
+    position:absolute;
+    text-align:center;
+    cursor:default;
+}
+
+.x42-tinygain{{{cns}}} .db-label h1,
+.x42-tinygain{{{cns}}} .amp-label h1 {
+    font-family:"Questrial";
+    line-height:1;
+    color:#aaa;
+    margin:0.8em 0;
+}
+
+.x42-tinygain{{{cns}}} .amp-label {
+    left:15px;
+    bottom:5px;
+    overflow:visible;
+    width:2em;
+}
+
+.x42-tinygain{{{cns}}} .amp-label h1 {
+    font-size:22px;
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    text-shadow: 1px 0px 1px #333;
+}
+
+.x42-tinygain{{{cns}}} .db-label {
+    right:30px;
+    bottom:13px;
+}
+
+.x42-tinygain{{{cns}}} .db-label h1 {
+    font-size:12px;
+    text-shadow: 0px -1px 1px #111;
+}
