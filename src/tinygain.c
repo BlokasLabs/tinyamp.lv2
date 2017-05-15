@@ -93,6 +93,37 @@ connect_port (LV2_Handle instance,
 	}
 }
 
+static inline float
+fast_fabsf (float val)
+{
+	union {float f; int i;} t;
+	t.f = val;
+	t.i &= 0x7fffffff;
+	return t.f;
+}
+
+static inline float
+fast_log2 (float val)
+{
+	union {float f; int i;} t;
+	t.f = val;
+	int* const    exp_ptr =  &t.i;
+	int           x = *exp_ptr;
+	const int     log_2 = ((x >> 23) & 255) - 128;
+	x &= ~(255 << 23);
+	x += 127 << 23;
+	*exp_ptr = x;
+	val = ((-1.0f / 3.f) * t.f + 2) * t.f - 2.0f / 3.f;
+	return (val + log_2);
+}
+
+static inline float
+fast_log10f (const float val)
+{
+  return fast_log2(val) / 3.312500f;
+}
+
+
 static inline void
 pre (TinyGain* self, uint32_t n_samples)
 {
@@ -118,12 +149,12 @@ post (TinyGain* self)
 {
 	const float l = self->meter_level;
 #ifdef THROTTLE
-	float db_lvl = l > 1e-6f  ? 20.f * log10f (l) : -120;
+	float db_lvl = l > 1e-6f  ? 20.f * fast_log10f (l) : -120;
 	if (db_lvl == -120 && self->db_lvl != -120) {
 		*self->ports[P_LEVEL] = 0;
 		self->db_lvl = db_lvl;
 	}
-	else if (fabsf (db_lvl - self->db_lvl) > .2) {
+	else if (fast_fabsf (db_lvl - self->db_lvl) > .2) {
 		*self->ports[P_LEVEL] = l;
 		self->db_lvl = db_lvl;
 	}
@@ -152,10 +183,13 @@ run_mono (LV2_Handle instance, uint32_t n_samples)
 		t = 1.0;
 	}
 
+	// consider in splitting into 2 loops
+	//  - one vectorizable (gain),
+	//  - one with branches for DPM
 	for (uint32_t i = 0; i < n_samples; ++i) {
 		g += omega * (t - g) + 1e-14;
 		out[i] = in[i] * g;
-		const float a = fabsf (out[i]);
+		const float a = fast_fabsf (out[i]);
 		if (a > l) { l = a; }
 	}
 
@@ -192,8 +226,8 @@ run_stereo (LV2_Handle instance, uint32_t n_samples)
 		g += omega * (t - g) + 1e-14;
 		outL[i] = inL[i] * g;
 		outR[i] = inR[i] * g;
-		const float aL = fabsf (outL[i]);
-		const float aR = fabsf (outR[i]);
+		const float aL = fast_fabsf (outL[i]);
+		const float aR = fast_fabsf (outR[i]);
 		if (aL > l) { l = aL; }
 		if (aR > l) { l = aR; }
 	}
