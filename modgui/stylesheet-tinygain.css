@@ -44,7 +44,7 @@
     overflow:hidden;
     position:absolute;
     left:5px;
-    bottom:17px;
+    bottom:15px;
     z-index:503;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .x42-tinygain{{{cns}}} .mod-control-group {
-    margin:0px 15px !important;
+    margin:2px 15px 0 !important;
     position:relative;
     text-align:center;
     z-index:500 !important;
@@ -125,7 +125,7 @@
     text-align:center;
     cursor:default;
     right:10px;
-    bottom:14px;
+    bottom:12px;
 }
 
 .x42-tinygain{{{cns}}} .db-label h1 {
