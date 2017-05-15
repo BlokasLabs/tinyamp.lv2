@@ -30,6 +30,7 @@
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 
 #define THROTTLE // MOD output port event throttle
+#define SEPARATE_LOOPS // vectorizable
 
 enum {
 	P_GAIN = 0,
@@ -170,7 +171,7 @@ run_mono (LV2_Handle instance, uint32_t n_samples)
 	pre (self, n_samples);
 
 	float l = self->meter_level + 1e-20f;
-	float g = self->gain;
+	float g = self->gain + 1e-10;
 	float t = self->target_gain;
 
 	const float omega = self->omega;
@@ -183,15 +184,25 @@ run_mono (LV2_Handle instance, uint32_t n_samples)
 		t = 1.0;
 	}
 
-	// consider in splitting into 2 loops
-	//  - one vectorizable (gain),
-	//  - one with branches for DPM
+#ifdef SEPARATE_LOOPS
+	// vectorizable loop
 	for (uint32_t i = 0; i < n_samples; ++i) {
-		g += omega * (t - g) + 1e-14;
+		g += omega * (t - g);
+		out[i] = in[i] * g;
+	}
+	// branches inside loop
+	for (uint32_t i = 0; i < n_samples; ++i) {
+		const float a = fast_fabsf (out[i]);
+		if (a > l) { l = a; }
+	}
+#else
+	for (uint32_t i = 0; i < n_samples; ++i) {
+		g += omega * (t - g);
 		out[i] = in[i] * g;
 		const float a = fast_fabsf (out[i]);
 		if (a > l) { l = a; }
 	}
+#endif
 
 	if (!isfinite (l)) l = 0;
 	self->meter_level = l;
@@ -207,7 +218,7 @@ run_stereo (LV2_Handle instance, uint32_t n_samples)
 	pre (self, n_samples);
 
 	float l = self->meter_level + 1e-20f;
-	float g = self->gain;
+	float g = self->gain + 1e-10;
 	float t = self->target_gain;
 
 	const float omega  = self->omega;
@@ -222,8 +233,23 @@ run_stereo (LV2_Handle instance, uint32_t n_samples)
 		t = 1.0;
 	}
 
+#ifdef SEPARATE_LOOPS
+	// vectorizable loop
 	for (uint32_t i = 0; i < n_samples; ++i) {
-		g += omega * (t - g) + 1e-14;
+		g += omega * (t - g);
+		outL[i] = inL[i] * g;
+		outR[i] = inR[i] * g;
+	}
+	// branches inside loop
+	for (uint32_t i = 0; i < n_samples; ++i) {
+		const float aL = fast_fabsf (outL[i]);
+		const float aR = fast_fabsf (outR[i]);
+		if (aL > l) { l = aL; }
+		if (aR > l) { l = aR; }
+	}
+#else
+	for (uint32_t i = 0; i < n_samples; ++i) {
+		g += omega * (t - g);
 		outL[i] = inL[i] * g;
 		outR[i] = inR[i] * g;
 		const float aL = fast_fabsf (outL[i]);
@@ -231,6 +257,7 @@ run_stereo (LV2_Handle instance, uint32_t n_samples)
 		if (aL > l) { l = aL; }
 		if (aR > l) { l = aR; }
 	}
+#endif
 
 	if (!isfinite (l)) l = 0;
 	self->meter_level = l;
