@@ -35,6 +35,7 @@
 enum {
 	P_GAIN = 0,
 	P_ENABLE,
+	P_MUTE,
 	P_LEVEL,
 	P_AIN,
 	P_AOUT,
@@ -155,7 +156,7 @@ post (TinyGain* self)
 		*self->ports[P_LEVEL] = 0;
 		self->db_lvl = db_lvl;
 	}
-	else if (fast_fabsf (db_lvl - self->db_lvl) > .2) {
+	else if (fast_fabsf (db_lvl - self->db_lvl) > .1) {
 		*self->ports[P_LEVEL] = l;
 		self->db_lvl = db_lvl;
 	}
@@ -182,6 +183,8 @@ run_mono (LV2_Handle instance, uint32_t n_samples)
 
 	if (*self->ports[P_ENABLE] <= 0) {
 		t = 1.0;
+	} else if (*self->ports[P_MUTE] > 0) {
+		t = 0.0;
 	}
 
 #ifdef SEPARATE_LOOPS
@@ -231,6 +234,8 @@ run_stereo (LV2_Handle instance, uint32_t n_samples)
 
 	if (*self->ports[P_ENABLE] <= 0) {
 		t = 1.0;
+	} else if (*self->ports[P_MUTE] > 0) {
+		t = 0.0;
 	}
 
 #ifdef SEPARATE_LOOPS
