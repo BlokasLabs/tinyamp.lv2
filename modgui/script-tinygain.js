@@ -14,14 +14,17 @@ function (event) {
             return;
         }
         switch (c) {
-            case 3:
+            case 4:
                 dpm.css({backgroundColor: '#ff4400'});
                 break;
-            case 2:
+            case 3:
                 dpm.css({backgroundColor: '#dd6622'});
                 break;
-            case 1:
+            case 2:
                 dpm.css({backgroundColor: '#ccaa66'});
+                break;
+            case 1:
+                dpm.css({backgroundColor: '#88ff66'});
                 break;
             default:
                 dpm.css({backgroundColor: '#aacc66'});
@@ -35,14 +38,16 @@ function (event) {
             case 'level':
                 var db = to_db(value);
                 event.icon.find ('[mod-role=level]').text (db);
-                if (db < -3 || value < 0.000001) {
+                if (db < -18 || value < 0.000001) {
                     highlight (0);
-                } else if (db < -1) {
+								} else if (db < -3) {
                     highlight (1);
-                } else if (db < 0) {
+                } else if (db < -1) {
                     highlight (2);
-                } else {
+                } else if (db < 0) {
                     highlight (3);
+                } else {
+                    highlight (4);
                 }
                 break;
             default:
