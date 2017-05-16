@@ -9,7 +9,7 @@
         modgui:javascript <modgui/script-@LV2NAME@.js> ;
         modgui:brand "x42" ;
         modgui:label "TinyGain Mono" ;
-        modgui:monitoredOutputs [ lv2:symbol "level" ] ;
+        modgui:monitoredOutputs [ lv2:symbol "level" ] , [ lv2:symbol "mute" ] ;
     ] .
 
 <http://gareus.org/oss/lv2/@LV2NAME@#stereo>
@@ -22,5 +22,5 @@
         modgui:javascript <modgui/script-@LV2NAME@.js> ;
         modgui:brand "x42" ;
         modgui:label "TinyGain Stereo" ;
-        modgui:monitoredOutputs [ lv2:symbol "level" ] ;
+        modgui:monitoredOutputs [ lv2:symbol "level" ] , [ lv2:symbol "mute" ] ;
     ] .
